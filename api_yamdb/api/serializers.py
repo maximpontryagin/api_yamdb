@@ -1,8 +1,30 @@
+from rest_framework import serializers
+
+from reviews.models import Comment, Review, Title
 from django.db.models import Avg
 from django.utils import timezone
 from rest_framework import serializers
 
 from reviews.models import (Title, Genre, Category)
+
+class ReviewSerializer(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(
+        read_only=True, default=serializers.CurrentUserDefault())
+    title = serializers.SlugRelatedField(slug_field='id', read_only=True)
+
+    class Meta:
+        fields = '__all__'
+        model = Review
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(
+        read_only=True, default=serializers.CurrentUserDefault())
+    comment = serializers.SlugRelatedField(slug_field='id', read_only=True)
+
+    class Meta:
+        fields = '__all__'
+        model = Comment
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -59,13 +81,7 @@ class TitleSerializer(serializers.ModelSerializer):
         slug_field='slug',
         required=True
     )
-
+    
     class Meta:
         model = Title
         fields = '__all__'
-
-    def validate_year(self, value):
-        if value > timezone.now().year:
-            raise serializers.ValidationError('Год выпуска не может '
-                                              'быть больше текущего года.')
-        return value
