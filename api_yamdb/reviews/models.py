@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import (MaxValueValidator,
-                                    MinValueValidator)
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from .validators import validation_year
@@ -73,7 +72,6 @@ class GenreTitle(models.Model):
 
     def __str__(self):
         return f'{self.genre} {self.title}'
-
 
 
 class Review(models.Model):

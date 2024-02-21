@@ -28,7 +28,7 @@ class GenreAdmin(admin.ModelAdmin):
 
 
 class TitleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'year', 'description', 'genre', 'category')
+    list_display = ('name', 'year', 'description')
     search_fields = ('name',)
     list_filter = ('name', 'year')
 
